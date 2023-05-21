@@ -54,7 +54,8 @@ function addPlayerFields() {
     let row = document.createElement('div');
     row.innerHTML = inputGroup;
     row = row.firstChild;
-    playerListDiv.appendChild(row);
+    // playerListDiv.appendChild(row);
+    playerListDiv.prepend(row);
 
     //#endregion
 
@@ -107,6 +108,38 @@ function distributeTeams(players) {
             team2.push(currentPlayer);
             totalSkillTeam2 += currentPlayer.skillLevel;
         }
+    }
+}
+
+function fairlyDistribute(players) {
+    // sort by skill level
+    players.sort((a, b) => b.skillLevel - a.skillLevel);
+
+    if (players.length % 2 === 0) {
+        for (let i = 0; i < players.length; i++) {
+            const currentPlayer = players[i];
+            if (i % 2 === 0) {
+                team1.push(currentPlayer);
+                totalSkillTeam1 += currentPlayer.skillLevel;
+            } else {
+                team2.push(currentPlayer);
+                totalSkillTeam2 += currentPlayer.skillLevel;
+            }
+        }
+    } else {
+        for (let i = 0; i < players.length - 1; i++) {
+            const currentPlayer = players[i];
+            if (i % 2 === 0) {
+                team1.push(currentPlayer);
+                totalSkillTeam1 += currentPlayer.skillLevel;
+            } else {
+                team2.push(currentPlayer);
+                totalSkillTeam2 += currentPlayer.skillLevel;
+            }
+        }
+        let lastPlayer = players[players.length - 1];
+        team2.push(lastPlayer);
+        totalSkillTeam2 += lastPlayer.skillLevel;
     }
 }
 
@@ -166,7 +199,8 @@ function process() {
     }
 
     let playerList = getPlayers();
-    distributeTeams(playerList);
+    //distributeTeams(playerList);
+    fairlyDistribute(playerList);
     printTeams();
     outputTables.scrollIntoView();
 }
@@ -174,3 +208,8 @@ function process() {
 
 btnAddPlayer.addEventListener("click", addPlayerFields);
 btnGetTeams.addEventListener("click", process);
+
+
+
+
+
