@@ -96,6 +96,8 @@ function getPlayers() {
 
 function distributeTeams(players) {
     players.sort((a, b) => b.skillLevel - a.skillLevel);
+    // TODO: what if skills are: [3,3,4,10]
+    // Count or Fairly distributed skills?
     for (let i = 0; i < players.length; i++) {
         const currentPlayer = players[i];
         if (totalSkillTeam1 <= totalSkillTeam2) {
@@ -106,13 +108,6 @@ function distributeTeams(players) {
             totalSkillTeam2 += currentPlayer.skillLevel;
         }
     }
-
-    // return {
-    //     team1: team1,
-    //     team2: team2,
-    //     totalSkillTeam1: totalSkillTeam1,
-    //     totalSkillTeam2: totalSkillTeam2
-    // };
 }
 
 function printTeams() {
