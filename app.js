@@ -29,7 +29,7 @@ function addPlayerFields() {
                             <div class="col col-md-6 col-sm-12">
                                 <div class="input-group mb-6 p-1">
                                     <span class="input-group-text">${playerCount}</span>
-                                    <input type="text" placeholder="Player Name" value="${"Player "+playerCount}" class="form-control"
+                                    <input type="text" placeholder="Player Name" class="form-control"
                                         aria-label="Text input with dropdown button">
                                         <select class="form-select" aria-label="Default select example">
                                             <option value="default" selected>Player Skill Level</option>
