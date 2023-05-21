@@ -29,7 +29,7 @@ function addPlayerFields() {
                             <div class="col col-md-6 col-sm-12">
                                 <div class="input-group mb-6 p-1">
                                     <span class="input-group-text">${playerCount}</span>
-                                    <input type="text" placeholder="Player Name" class="form-control"
+                                    <input type="text" placeholder="Player Name" value="${"Player "+playerCount}" class="form-control"
                                         aria-label="Text input with dropdown button">
                                         <select class="form-select" aria-label="Default select example">
                                             <option value="default" selected>Player Skill Level</option>
@@ -199,17 +199,63 @@ function process() {
     }
 
     let playerList = getPlayers();
-    //distributeTeams(playerList);
-    fairlyDistribute(playerList);
+    let median = Math.floor(playerList.length / 2);
+    let firstPart = playerList.slice(0, median);
+    let secondPart = playerList.slice(median);
+
+    const output = findPartitions(firstPart, secondPart);
+    console.log({ output});
+    const arr1 = output[0];
+    const arr2 = output[1];
+    // console.log({ firstPart, secondPart });
+    console.log({ arr1, arr2 });
+
+    for (const p of arr1) {
+        team1.push(p);
+        totalSkillTeam1 += p.skillLevel;
+    }
+
+    for (const p of arr2) {
+        team2.push(p);
+        totalSkillTeam2 += p.skillLevel;
+    }
+
+
+    // distributeTeams(playerList);
+    // fairlyDistribute(playerList);
     printTeams();
     outputTables.scrollIntoView();
 }
 
 
+
+
+// Gets evenly distributed teams based on skill level
+function findPartitions(arr1, arr2) {
+    let diff = Math.abs(
+        arr1.reduce((a, b) => a + b.skillLevel, 0) -
+        arr2.reduce((a, b) => a + b.skillLevel, 0)
+    );
+
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            let newDiff = Math.abs(
+                arr1.reduce((a, b) => a + b.skillLevel, 0) - arr1[i].skillLevel + arr2[j].skillLevel -
+                (arr2.reduce((a, b) => a + b.skillLevel, 0) - arr2[j].skillLevel + arr1[i].skillLevel)
+            );
+            if (newDiff < diff) {
+                let temp1 = arr1[i];
+                let temp2 = arr2[j];
+                arr1[i] = temp2;
+                arr2[j] = temp1;
+                return findPartitions(arr1, arr2);
+            }
+        }
+    }
+    return [arr1, arr2];
+}
+
+
+
 btnAddPlayer.addEventListener("click", addPlayerFields);
 btnGetTeams.addEventListener("click", process);
-
-
-
-
-
