@@ -8,6 +8,8 @@ The algorithm used in the app sorts the players in descending order of skill lev
 
 By providing a user-friendly interface with input fields for player names and skill levels, along with a distribution algorithm that prioritizes fairness, the `TeamBalancer` simplifies the process of creating balanced teams for various team-based activities, such as sports events, gaming competitions, or group projects.
 
+<a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a>
+
 ## Table of Contents
 
 - [Installation](#installation)
