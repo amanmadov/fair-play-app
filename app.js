@@ -1,9 +1,13 @@
+//#region Player Class 
+
 class Player {
     constructor(name, skillLevel) {
         this.name = name;
         this.skillLevel = skillLevel;
     }
 }
+
+//#endregion
 
 const playerListDiv = document.getElementById("playerList");
 const btnAddPlayer = document.getElementById("btnAddPlayer");
@@ -14,12 +18,16 @@ const outputTables = document.getElementById("outputTables");
 
 let classNames = Array.from(btnGetTeams.classList);
 
-// initial values
+
+//#region Initial Stats 
+
 let playerCount = 1;
 const team1 = [];
 const team2 = [];
 let totalSkillTeam1 = 0;
 let totalSkillTeam2 = 0;
+
+//#endregion
 
 
 function addPlayerFields() {
@@ -64,7 +72,7 @@ function addPlayerFields() {
 
 }
 
-function validateInputs() {
+function validatePlayerInputs() {
     const inputs = document.querySelectorAll('input[type="text"]');
     const selects = document.querySelectorAll('select');
 
@@ -81,7 +89,7 @@ function validateInputs() {
     return true;
 }
 
-function getPlayers() {
+function getPlayersFromInput() {
     const playerElements = document.querySelectorAll('#playerList .input-group');
     const players = [];
 
@@ -144,11 +152,11 @@ function fairlyDistribute(players) {
 }
 
 function printTeams() {
-    team1Table.innerHTML = generateTable(team1, totalSkillTeam1);
-    team2Table.innerHTML = generateTable(team2, totalSkillTeam2);
+    team1Table.innerHTML = generateTeamTable(team1, totalSkillTeam1);
+    team2Table.innerHTML = generateTeamTable(team2, totalSkillTeam2);
 }
 
-function generateTable(team, skillTotal) {
+function generateTeamTable(team, skillTotal) {
     let rows = '';
     for (const [index, player] of team.entries()) {
         rows += `<tr>
@@ -180,7 +188,7 @@ function generateTable(team, skillTotal) {
     return table;
 }
 
-function resetAll() {
+function resetGameStats() {
     team1.length = 0;
     team2.length = 0;
     totalSkillTeam1 = 0;
@@ -189,37 +197,34 @@ function resetAll() {
     team2Table.innerHTML = '';
 }
 
-function process() {
-    resetAll();
-    let areInputsValid = validateInputs();
+function processTeamDistribution() {
+    resetGameStats();
+    let areInputsValid = validatePlayerInputs();
     if (!areInputsValid) {
         var myModal = new bootstrap.Modal(document.getElementById('myModal'));
         myModal.show();
         return;
     }
 
-    let playerList = getPlayers();
+    let playerList = getPlayersFromInput();
     let median = Math.floor(playerList.length / 2);
     let firstPart = playerList.slice(0, median);
     let secondPart = playerList.slice(median);
 
-    const output = findPartitions(firstPart, secondPart);
-    console.log({ output});
-    const arr1 = output[0];
-    const arr2 = output[1];
-    // console.log({ firstPart, secondPart });
-    console.log({ arr1, arr2 });
+    const teams = balanceTeamsBySkillLevel(firstPart, secondPart);
+    // console.log({ output});
+    const teamA = teams[0];
+    const teamB = teams[1];
 
-    for (const p of arr1) {
+    for (const p of teamA) {
         team1.push(p);
         totalSkillTeam1 += p.skillLevel;
     }
 
-    for (const p of arr2) {
+    for (const p of teamB) {
         team2.push(p);
         totalSkillTeam2 += p.skillLevel;
     }
-
 
     // distributeTeams(playerList);
     // fairlyDistribute(playerList);
@@ -227,11 +232,8 @@ function process() {
     outputTables.scrollIntoView();
 }
 
-
-
-
 // Gets evenly distributed teams based on skill level
-function findPartitions(arr1, arr2) {
+function balanceTeamsBySkillLevel(arr1, arr2) {
     let diff = Math.abs(
         arr1.reduce((a, b) => a + b.skillLevel, 0) -
         arr2.reduce((a, b) => a + b.skillLevel, 0)
@@ -248,7 +250,7 @@ function findPartitions(arr1, arr2) {
                 let temp2 = arr2[j];
                 arr1[i] = temp2;
                 arr2[j] = temp1;
-                return findPartitions(arr1, arr2);
+                return balanceTeamsBySkillLevel(arr1, arr2);
             }
         }
     }
@@ -258,4 +260,4 @@ function findPartitions(arr1, arr2) {
 
 
 btnAddPlayer.addEventListener("click", addPlayerFields);
-btnGetTeams.addEventListener("click", process);
+btnGetTeams.addEventListener("click", processTeamDistribution);
