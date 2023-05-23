@@ -1,4 +1,4 @@
-# Project Name
+# TeamBalancer
 
 `TeamBalancer` is a Fair Team Distribution App developed using JavaScript that aims to create two equally balanced teams based on the skill levels of players. The app allows users to input player names and their corresponding skill levels, and then employs an algorithm to distribute the players into two teams.
 
