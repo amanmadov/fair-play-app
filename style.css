@@ -48,3 +48,15 @@
 }
 
 /*#endregion */
+
+/* .wrapper {
+	min-height: 100%;
+	display: grid;
+	grid-template-rows: auto 1fr auto;
+}
+
+.footer {
+	background-color: rgb(160, 159, 160);
+	color: #fff;
+	padding: 20px;
+} */

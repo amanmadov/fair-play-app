@@ -9,6 +9,8 @@ class Player {
 
 //#endregion
 
+//#region DOM Element retrieval 
+
 const playerListDiv = document.getElementById("playerList");
 const btnAddPlayer = document.getElementById("btnAddPlayer");
 const btnGetTeams = document.getElementById("btnGetTeams");
@@ -18,6 +20,7 @@ const outputTables = document.getElementById("outputTables");
 
 let classNames = Array.from(btnGetTeams.classList);
 
+//#endregion
 
 //#region Initial Stats 
 
@@ -26,6 +29,7 @@ const team1 = [];
 const team2 = [];
 let totalSkillTeam1 = 0;
 let totalSkillTeam2 = 0;
+const MINIMUM_PLAYER_COUNT = 3;
 
 //#endregion
 
@@ -57,7 +61,7 @@ function addPlayerFields() {
                         </div>`;
     //#endregion
 
-    //#region Append element to DOM 
+    //#region Prepend element to DOM 
 
     let row = document.createElement('div');
     row.innerHTML = inputGroup;
@@ -68,7 +72,7 @@ function addPlayerFields() {
     //#endregion
 
     playerCount++;
-    if (playerCount >= 3 && classNames.includes('d-none')) btnGetTeams.classList.remove("d-none");
+    if (playerCount >= MINIMUM_PLAYER_COUNT && classNames.includes('d-none')) btnGetTeams.classList.remove("d-none");
 
 }
 
@@ -103,6 +107,7 @@ function getPlayersFromInput() {
     return players;
 }
 
+// Skill First Approach
 function distributeTeams(players) {
     players.sort((a, b) => b.skillLevel - a.skillLevel);
     // TODO: what if skills are: [3,3,4,10]
@@ -116,38 +121,6 @@ function distributeTeams(players) {
             team2.push(currentPlayer);
             totalSkillTeam2 += currentPlayer.skillLevel;
         }
-    }
-}
-
-function fairlyDistribute(players) {
-    // sort by skill level
-    players.sort((a, b) => b.skillLevel - a.skillLevel);
-
-    if (players.length % 2 === 0) {
-        for (let i = 0; i < players.length; i++) {
-            const currentPlayer = players[i];
-            if (i % 2 === 0) {
-                team1.push(currentPlayer);
-                totalSkillTeam1 += currentPlayer.skillLevel;
-            } else {
-                team2.push(currentPlayer);
-                totalSkillTeam2 += currentPlayer.skillLevel;
-            }
-        }
-    } else {
-        for (let i = 0; i < players.length - 1; i++) {
-            const currentPlayer = players[i];
-            if (i % 2 === 0) {
-                team1.push(currentPlayer);
-                totalSkillTeam1 += currentPlayer.skillLevel;
-            } else {
-                team2.push(currentPlayer);
-                totalSkillTeam2 += currentPlayer.skillLevel;
-            }
-        }
-        let lastPlayer = players[players.length - 1];
-        team2.push(lastPlayer);
-        totalSkillTeam2 += lastPlayer.skillLevel;
     }
 }
 
@@ -227,12 +200,12 @@ function processTeamDistribution() {
     }
 
     // distributeTeams(playerList);
-    // fairlyDistribute(playerList);
     printTeams();
     outputTables.scrollIntoView();
 }
 
 // Gets evenly distributed teams based on skill level
+// This is where all the magic happens
 function balanceTeamsBySkillLevel(arr1, arr2) {
     let diff = Math.abs(
         arr1.reduce((a, b) => a + b.skillLevel, 0) -
@@ -257,7 +230,6 @@ function balanceTeamsBySkillLevel(arr1, arr2) {
     return [arr1, arr2];
 }
 
-
-
+// Event handlers
 btnAddPlayer.addEventListener("click", addPlayerFields);
 btnGetTeams.addEventListener("click", processTeamDistribution);
