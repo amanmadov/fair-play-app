@@ -6,10 +6,7 @@ The app follows a two-step process to achieve fair team distribution. First, it 
 
 The `recursive` algorithm used in the app follows these steps:
 
-<pre>
-```javascript
-// Gets evenly distributed teams based on skill level
-// This is where all the magic happens
+```js
 function balanceTeamsBySkillLevel(arr1, arr2) {
     let diff = Math.abs(
         arr1.reduce((a, b) => a + b.skillLevel, 0) -
@@ -34,7 +31,6 @@ function balanceTeamsBySkillLevel(arr1, arr2) {
     return [arr1, arr2];
 }
 ```
-</pre>
 
 
 1. First, it calculates the initial difference between the total skill levels of the two teams.
