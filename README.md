@@ -6,6 +6,37 @@ The app follows a two-step process to achieve fair team distribution. First, it 
 
 The `recursive` algorithm used in the app follows these steps:
 
+<pre>
+```javascript
+// Gets evenly distributed teams based on skill level
+// This is where all the magic happens
+function balanceTeamsBySkillLevel(arr1, arr2) {
+    let diff = Math.abs(
+        arr1.reduce((a, b) => a + b.skillLevel, 0) -
+        arr2.reduce((a, b) => a + b.skillLevel, 0)
+    );
+
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            let newDiff = Math.abs(
+                arr1.reduce((a, b) => a + b.skillLevel, 0) - arr1[i].skillLevel + arr2[j].skillLevel -
+                (arr2.reduce((a, b) => a + b.skillLevel, 0) - arr2[j].skillLevel + arr1[i].skillLevel)
+            );
+            if (newDiff < diff) {
+                let temp1 = arr1[i];
+                let temp2 = arr2[j];
+                arr1[i] = temp2;
+                arr2[j] = temp1;
+                return balanceTeamsBySkillLevel(arr1, arr2);
+            }
+        }
+    }
+    return [arr1, arr2];
+}
+```
+</pre>
+
+
 1. First, it calculates the initial difference between the total skill levels of the two teams.
 2. Next, it iterates over each player in **Team 1**.
 3. For each player in **Team 1**, it further iterates over each player in **Team 2**.
@@ -19,13 +50,14 @@ This recursive algorithm aims to find an optimal distribution of players between
 
 By providing a user-friendly interface with input fields for player names and skill levels, along with a distribution algorithm that prioritizes fairness, the `TeamBalancer` simplifies the process of creating balanced teams for various team-based activities, such as sports events, gaming competitions, or group projects.
 
-<a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a>
+<p ><strong><a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a></strong></p>
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -69,6 +101,13 @@ Users can dynamically add players by clicking the **"Add Player"** button. This 
 
 - [x] **Select Skill Levels**
 For each player, users can choose the skill level from a dropdown menu. The skill levels range from **1** to **10**, allowing users to assign appropriate skill levels to the players.
+
+
+## Screenshots
+
+<p align="center"><img src="https://amanmadov.github.io/fair-play-app/images/initial.png"></p>
+<br>
+<p align="center"><img src="https://amanmadov.github.io/fair-play-app/images/output.png"></p>
 
 
 ## Contributing
