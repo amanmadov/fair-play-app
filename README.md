@@ -2,6 +2,21 @@
 
 `TeamBalancer` is a Fair Team Distribution App developed using JavaScript that aims to create two equally balanced teams based on the skill levels of players. The app allows users to input player names and their corresponding skill levels, and then employs an algorithm to distribute the players into two teams.
 
+<p ><strong><a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a></strong></p>
+
+
+## Table of Contents
+
+- [Algorithm](#algorithm)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Algorithm
+
 The app follows a two-step process to achieve fair team distribution. First, it ensures that both teams have an **equal number** of players. This helps maintain a balanced playing field by preventing one team from having a numerical advantage over the other. Once the teams have an equal number of players, the app distributes the players based on their skill levels to ensure **fairness in terms of skill** distribution.
 
 The `recursive` algorithm used in the app follows these steps:
@@ -45,17 +60,6 @@ function balanceTeamsBySkillLevel(arr1, arr2) {
 This recursive algorithm aims to find an optimal distribution of players between the two teams by iteratively swapping players to **minimize** the difference in skill levels. By recursively exploring all possible player swaps, it strives to achieve a fair balance between the teams based on their skill levels.
 
 By providing a user-friendly interface with input fields for player names and skill levels, along with a distribution algorithm that prioritizes fairness, the `TeamBalancer` simplifies the process of creating balanced teams for various team-based activities, such as sports events, gaming competitions, or group projects.
-
-<p ><strong><a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a></strong></p>
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
