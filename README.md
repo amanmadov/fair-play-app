@@ -2,9 +2,51 @@
 
 `TeamBalancer` is a Fair Team Distribution App developed using JavaScript that aims to create two equally balanced teams based on the skill levels of players. The app allows users to input player names and their corresponding skill levels, and then employs an algorithm to distribute the players into two teams.
 
+<p ><strong><a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a></strong></p>
+
+
+## Table of Contents
+
+- [Algorithm](#algorithm)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Algorithm
+
 The app follows a two-step process to achieve fair team distribution. First, it ensures that both teams have an **equal number** of players. This helps maintain a balanced playing field by preventing one team from having a numerical advantage over the other. Once the teams have an equal number of players, the app distributes the players based on their skill levels to ensure **fairness in terms of skill** distribution.
 
 The `recursive` algorithm used in the app follows these steps:
+
+```js
+function balanceTeamsBySkillLevel(arr1, arr2) {
+    let diff = Math.abs(
+        arr1.reduce((a, b) => a + b.skillLevel, 0) -
+        arr2.reduce((a, b) => a + b.skillLevel, 0)
+    );
+
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            let newDiff = Math.abs(
+                arr1.reduce((a, b) => a + b.skillLevel, 0) - arr1[i].skillLevel + arr2[j].skillLevel -
+                (arr2.reduce((a, b) => a + b.skillLevel, 0) - arr2[j].skillLevel + arr1[i].skillLevel)
+            );
+            if (newDiff < diff) {
+                let temp1 = arr1[i];
+                let temp2 = arr2[j];
+                arr1[i] = temp2;
+                arr2[j] = temp1;
+                return balanceTeamsBySkillLevel(arr1, arr2);
+            }
+        }
+    }
+    return [arr1, arr2];
+}
+```
+
 
 1. First, it calculates the initial difference between the total skill levels of the two teams.
 2. Next, it iterates over each player in **Team 1**.
@@ -18,16 +60,6 @@ The `recursive` algorithm used in the app follows these steps:
 This recursive algorithm aims to find an optimal distribution of players between the two teams by iteratively swapping players to **minimize** the difference in skill levels. By recursively exploring all possible player swaps, it strives to achieve a fair balance between the teams based on their skill levels.
 
 By providing a user-friendly interface with input fields for player names and skill levels, along with a distribution algorithm that prioritizes fairness, the `TeamBalancer` simplifies the process of creating balanced teams for various team-based activities, such as sports events, gaming competitions, or group projects.
-
-<a href="https://amanmadov.github.io/fair-play-app">View Live Demo</a>
-
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
@@ -69,6 +101,13 @@ Users can dynamically add players by clicking the **"Add Player"** button. This 
 
 - [x] **Select Skill Levels**
 For each player, users can choose the skill level from a dropdown menu. The skill levels range from **1** to **10**, allowing users to assign appropriate skill levels to the players.
+
+
+## Screenshots
+
+<p align="center"><img src="https://amanmadov.github.io/fair-play-app/images/initial.png"></p>
+<br>
+<p align="center"><img src="https://amanmadov.github.io/fair-play-app/images/output.png"></p>
 
 
 ## Contributing
